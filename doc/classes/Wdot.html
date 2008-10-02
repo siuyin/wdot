@@ -1,0 +1,249 @@
+
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Class: Wdot</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Class</span><br />Wdot</td>
+  <td align="right">
+    <table cellspacing=0 cellpadding=2>
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../files/wdot_rb.html">wdot.rb</a>
+        </td>
+      </tr>
+    <tr>
+      <td>Parent:</td>
+      <td>
+Object
+     </td>
+   </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><p>
+<a href="Wdot.html">Wdot</a> class - definitions checked:
+</p>
+<ul>
+<li>head
+
+</li>
+<li>start_node
+
+</li>
+<li>node
+
+</li>
+<li>if_node
+
+</li>
+<li>edge
+
+</li>
+</ul>
+</div>
+
+
+
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000004">definition?</a></li>
+  <li><a href="#M000002">head_parse</a></li>
+  <li><a href="#M000001">split</a></li>
+  <li><a href="#M000003">start_node_parse</a></li>
+  </ul>
+
+
+
+
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">Word_pat</td>
+    <td>=</td>
+    <td class="attr-value">/(?:&quot;[^&quot;]+&quot;|[^\s,(-&gt;)]+)/</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+Pattern to isolate words in a line - used by <a
+href="Wdot.html#M000001">Wdot.split</a>.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">Head_pat</td>
+    <td>=</td>
+    <td class="attr-value">/\s*:head\b\s*(.*)$/i</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+Pattern to match :head tag.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">Node_pat</td>
+    <td>=</td>
+    <td class="attr-value">/^\s*\w+[-\w]*\b\s*([^(?:-&gt;)\[]*)$/</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+Patern - node definition.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">Start_node_pat</td>
+    <td>=</td>
+    <td class="attr-value">/^\s*_\w+[-\w]*\b\s*([^(?:-&gt;)\[]*)$/</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+Pattern - start_node definition eg. _begin The parse patern is almost the
+same - just different capture groups.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">Start_node_parse_pat</td>
+    <td>=</td>
+    <td class="attr-value">/^\s*(_(\w+[-\w]*))\b\s*([^(?:-&gt;)\[]*)$/</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">If_node_pat</td>
+    <td>=</td>
+    <td class="attr-value">/^\s*if_[-\w]+\b\s*[^(-&gt;)\[]*$/</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+if_node pattern.
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">Edge_pat</td>
+    <td>=</td>
+    <td class="attr-value">/^\s*\w+[-\w]*\b\s*(?:-&gt;)\s*\w+[-\w]*\b\s*(.*)$/</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+edge pattern: Node_pat -&gt; Node_pat rest
+
+</td>
+  </tr>
+  </table>
+
+
+<div class="sectiontitle">Public Class methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000004"></a><b>definition?</b>(pat,line)
+[ <a href="javascript:openCode('Wdot.src/M000004.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Is line a definition, give pat?
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000002"></a><b>head_parse</b>(line)
+[ <a href="javascript:openCode('Wdot.src/M000002.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Parse the :head tag
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000001"></a><b>split</b>(line)
+[ <a href="javascript:openCode('Wdot.src/M000001.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Split a string delimited by space of comma but keep quoted values together.
+<a href="Wdot.html#M000001">Wdot.split</a> &#8216;a &quot;b,c&quot;&#8217;
+# -&gt; [&#8216;a&#8217;,&#8217;&quot;b,c&quot;&#8217;]
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000003"></a><b>start_node_parse</b>(line)
+[ <a href="javascript:openCode('Wdot.src/M000003.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Parse start nodes eg. _begin or _end .
+</p>
+  </div>
+</div>
+</div>
+
+  </div>
+
+    </body>
+</html>

@@ -117,6 +117,7 @@
 #
 # == Requirements
 # * wdot.rb -- this file. Download from http://www.beyondbroadcast.com/cms/wdot 
+#   or from http://rubyforge.org/projects/wdot 
 # * graphviz -- download from http://www.graphviz.org
 # * ruby -- download from http://www.ruby-lang.org
 #

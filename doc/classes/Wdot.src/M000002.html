@@ -1,0 +1,42 @@
+
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head><title>head_parse (Wdot)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style>
+.ruby-comment    { color: green; font-style: italic }
+.ruby-constant   { color: #4433aa; font-weight: bold; }
+.ruby-identifier { color: #222222;  }
+.ruby-ivar       { color: #2233dd; }
+.ruby-keyword    { color: #3333FF; font-weight: bold }
+.ruby-node       { color: #777777; }
+.ruby-operator   { color: #111111;  }
+.ruby-regexp     { color: #662222; }
+.ruby-value      { color: #662222; font-style: italic }
+  .kw { color: #3333FF; font-weight: bold }
+  .cmt { color: green; font-style: italic }
+  .str { color: #662222; font-style: italic }
+  .re  { color: #662222; }
+</style>
+</head>
+<body bgcolor="white">
+<pre><span class="ruby-comment cmt"># File wdot.rb, line 177</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Wdot</span>.<span class="ruby-identifier">head_parse</span>(<span class="ruby-identifier">line</span>)
+    <span class="ruby-identifier">title</span> = <span class="ruby-value str">''</span>
+    <span class="ruby-identifier">line</span>.<span class="ruby-identifier">match</span> <span class="ruby-constant">Head_pat</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>.<span class="ruby-identifier">strip</span> <span class="ruby-operator">!=</span> <span class="ruby-value str">''</span>
+      <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">split</span>(<span class="ruby-identifier">$1</span>)
+      <span class="ruby-identifier">ret</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">e</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^&quot;?(TB|BT|RL|LR)&quot;?$/i</span>
+          <span class="ruby-ivar">@@rankdir</span> = <span class="ruby-identifier">$1</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">e</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^&quot;?([-,\s\w]+)&quot;?$/</span>
+          <span class="ruby-identifier">title</span> = <span class="ruby-identifier">$1</span>
+        <span class="ruby-keyword kw">end</span>
+      }
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">parse_string</span> = <span class="ruby-value str">&quot;digraph G {\n  graph [ label=\&quot;\#{title}\&quot;, bgcolor=\&quot;\#{@@graph_bgcolor}\&quot;,\n    fontname=\&quot;\#{@@graph_fontname}\&quot;, rankdir=\&quot;\#{@@rankdir}\&quot;]\n  node [fontname=\&quot;\#{@@node_fontname}\&quot;, shape=\&quot;\#{@@node_shape}\&quot;,\n    style=\&quot;\#{@@node_style}\&quot;, fillcolor=\&quot;\#{@@node_fillcolor}\&quot;]\n  edge [fontname=\&quot;\#{@@edge_fontname}\&quot;, color=\&quot;\#{@@edge_color}\&quot;,\n    dir=\&quot;\#{@@edge_dir}\&quot;]\n&quot;</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
