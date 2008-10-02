@@ -1,0 +1,56 @@
+/* Broadcast Signals 
+ */
+:head {
+
+//Override the default arrow-heads to none
+edge [dir="none"]
+
+signals [label="Broadcast Signals" shape="ellipse" fillcolor="transparent"]
+video
+audio
+
+alg_vid "analog video"
+pal
+ntsc
+
+alg_aud "analog audio"
+alg_bal "balanced"
+alg_unbal "unbalanced"
+
+dig_vid "digital video"
+sdi
+
+dig_aud "digital audio"
+dig_bal
+aes_3 "aes-3"
+dig_unbal
+aes_id "aes-id"
+
+
+/*****************************************************************/
+
+signals->video
+signals->audio
+
+video->alg_vid
+alg_vid->pal "older"
+alg_vid->ntsc "oldest"
+alg_vid->secam "old"
+
+video->dig_vid
+dig_vid->sdi
+
+audio->alg_aud
+alg_aud->alg_bal
+alg_aud->alg_unbal
+
+audio->dig_aud
+dig_aud->dig_bal
+dig_aud->dig_unbal
+dig_bal->aes_3
+dig_unbal->aes_id
+
+dig_aud->sdi
+
+
+}

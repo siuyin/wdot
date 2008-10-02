@@ -153,18 +153,17 @@ class Wdot
   Head_pat = /\s*:head\b\s*(.*)$/i
   # Pattern used to split head line - used by Wdot.tail .
 
-  # Patern - node definition.
-  Node_pat =       /^\s*\w+[-\w]*\b\s*([^(?:->)\[]*)$/ 
+  # Pattern - node definition.
+  Node_pat =             /^\s*(\w+[-\w]*)\b\s*([^(?:->)\[]*)$/ 
   # Pattern - start_node definition eg. _begin
   # The parse patern is almost the same - just different capture groups.
-  Start_node_pat =       /^\s*_\w+[-\w]*\b\s*([^(?:->)\[]*)$/
-  Start_node_parse_pat = /^\s*(_(\w+[-\w]*))\b\s*([^(?:->)\[]*)$/
+  Start_node_pat =       /^\s*(_(\w+[-\w]*))\b\s*([^(?:->)\[]*)$/
 
   # if_node pattern.
-  If_node_pat = /^\s*if_[-\w]+\b\s*[^(->)\[]*$/
+  If_node_pat = /^\s*(if_([-\w]+))\b\s*([^(->)\[]*)$/
 
   # edge pattern: Node_pat -> Node_pat rest
-  Edge_pat = /^\s*\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*\b\s*(.*)$/
+  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(.*)$/
 
   # Split a string delimited by space of comma but
   # keep quoted values together.
@@ -200,7 +199,7 @@ STR
 
   # Parse start nodes eg. _begin or _end .
   def Wdot.start_node_parse(line)
-    line.match Start_node_parse_pat
+    line.match Start_node_pat
     full_node_name = $1
     node_name = $2
     node_name = $3.gsub('"','') if $3.strip != ''
@@ -209,6 +208,39 @@ STR
   fillcolor="#{@@start_node_fillcolor}"]
 STR
   end
+
+  # Parse a node definition.
+  def Wdot.node_parse(line)
+    line.match Node_pat
+    node_name = $1
+    title = $1
+    title = $2.gsub('"','') if $2.strip != ''
+    parse_string = <<ENDSTR
+#{node_name} [label="#{title}"]
+ENDSTR
+  end
+
+  # Parse an edge definition. eg a->b "A to B"
+  def Wdot.edge_parse(line)
+    line.match Edge_pat
+    edge_def=$1
+    title = $2.gsub('"','') if $2.strip != ''
+    parse_string = <<ENDSTR
+#{edge_def} [label="#{title}"]
+ENDSTR
+  end
+
+  # Parse an if_node. eg. if_ok
+  def Wdot.if_node_parse(line)
+    line.match If_node_pat
+    node_name=$1
+    title = "#{$2}?"
+    title = $3.gsub('"','') if $3.strip != ''
+    parse_string = <<ENDSTR
+#{node_name} [label="#{title}",shape="diamond"]
+ENDSTR
+  end
+
   # Is line a definition, give pat?
   def Wdot.definition?(pat,line)
     ret = false
@@ -221,60 +253,18 @@ end
 
 #######################################################################
 if $0 == __FILE__
-  STDIN.each { |line| 
+  STDIN.each { |line|
     line.chomp!
-    if line =~ /# Look for head tag
-      ^\s*:head
-    # optional quoted title
-      (?:\s+"?([^",]*)"?
-    # optional , LR TB tag
-        (?:\s*,\s*(LR|RL|TB|BT)\s*,?\s*
-        )?
-      )?
-    # followed by {
-      \s+\{\s*$/ix
-      rankdir = 'TB'
-      rankdir = $2 if $2
-      puts %Q|digraph G {
-  graph [ label="#{$1}", bgcolor="white", fontname=\"Arial\", rankdir="#{rankdir}"]
-  node [fontname="Arial", shape="box", style="filled", fillcolor="AliceBlue"]
-  edge [fontname="Arial", color="Blue" dir="forward"]|
-    elsif line =~ /^\s*(_(\w+))
-      (?:\s+
-        "?([^->"]*)"?
-      )?\s*$/ix
-      title=$2
-      if $3
-        title=$3 if $3.strip != ""
-      end
-      puts %Q|#{$1} [label="#{title}", shape="circle", fillcolor="LightPink"]|
-    elsif line =~ /^\s*(if_(\w+))
-      (?:\s+
-        "?([^->"]*)"?
-      )?\s*$/ix
-      title=$2+'?'
-      if $3
-        title=$3 if $3.strip != ""
-      end
-      puts %Q|#{$1} [label="#{title}",shape="diamond"]|
-    elsif line =~ /^\s*(\w+)
-      (?:\s+
-        "?([^->"]*)"?
-      )?\s*$/ix
-      title=$1
-      title=$2 if $2
-      puts %Q|#{$1} [label="#{title}"]|
-    elsif line =~ %r!^\s*(\w+\s*->\s*\w+)
-      (?:\s+(.*)
-      )?\s*$!ix
-      expr=$1
-      opts=""
-      opts=$2 if $2
-      if opts.include? '['
-        puts "#{expr} #{opts}"
-      else
-        puts %Q{#{expr} [label="#{opts.gsub('"','')}"]}
-      end
+    if    Wdot.definition?(Wdot::Head_pat,line)
+      puts Wdot.head_parse(line)
+    elsif Wdot.definition?(Wdot::Start_node_pat,line)
+      puts Wdot.start_node_parse(line)
+    elsif Wdot.definition?(Wdot::Node_pat,line)
+      puts Wdot.node_parse(line)
+    elsif Wdot.definition?(Wdot::If_node_pat,line)
+      puts Wdot.if_node_parse(line)
+    elsif Wdot.definition?(Wdot::Edge_pat,line)
+      puts Wdot.edge_parse(line)
     else
       puts line
     end

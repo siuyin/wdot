@@ -3,7 +3,7 @@
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<head><title>split (Wdot)</title>
+<head><title>definition? (Wdot)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style>
 .ruby-comment    { color: green; font-style: italic }
@@ -22,9 +22,13 @@
 </style>
 </head>
 <body bgcolor="white">
-<pre><span class="ruby-comment cmt"># File wdot.rb, line 171</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Wdot</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">line</span>)
-    <span class="ruby-identifier">line</span>.<span class="ruby-identifier">scan</span> <span class="ruby-constant">Word_pat</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">line</span>
+<pre><span class="ruby-comment cmt"># File wdot.rb, line 250</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Wdot</span>.<span class="ruby-identifier">definition?</span>(<span class="ruby-identifier">pat</span>,<span class="ruby-identifier">line</span>)
+    <span class="ruby-identifier">ret</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">pat</span>
+      <span class="ruby-identifier">ret</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">ret</span>
   <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

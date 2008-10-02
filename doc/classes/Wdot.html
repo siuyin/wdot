@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html 
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -101,8 +101,11 @@ Object
 
   <div class="sectiontitle">Methods</div>
   <ul>
-  <li><a href="#M000004">definition?</a></li>
+  <li><a href="#M000007">definition?</a></li>
+  <li><a href="#M000005">edge_parse</a></li>
   <li><a href="#M000002">head_parse</a></li>
+  <li><a href="#M000006">if_node_parse</a></li>
+  <li><a href="#M000004">node_parse</a></li>
   <li><a href="#M000001">split</a></li>
   <li><a href="#M000003">start_node_parse</a></li>
   </ul>
@@ -140,19 +143,19 @@ Pattern to match :head tag.
   <tr valign='top'>
     <td class="attr-name">Node_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*\w+[-\w]*\b\s*([^(?:-&gt;)\[]*)$/</td>
+    <td class="attr-value">/^\s*(\w+[-\w]*)\b\s*([^(?:-&gt;)\[]*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
     <td colspan="2" class="attr-desc">
-Patern - node definition.
+Pattern - node definition.
 
 </td>
   </tr>
   <tr valign='top'>
     <td class="attr-name">Start_node_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*_\w+[-\w]*\b\s*([^(?:-&gt;)\[]*)$/</td>
+    <td class="attr-value">/^\s*(_(\w+[-\w]*))\b\s*([^(?:-&gt;)\[]*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
@@ -163,14 +166,9 @@ same - just different capture groups.
 </td>
   </tr>
   <tr valign='top'>
-    <td class="attr-name">Start_node_parse_pat</td>
-    <td>=</td>
-    <td class="attr-value">/^\s*(_(\w+[-\w]*))\b\s*([^(?:-&gt;)\[]*)$/</td>
-  </tr>
-  <tr valign='top'>
     <td class="attr-name">If_node_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*if_[-\w]+\b\s*[^(-&gt;)\[]*$/</td>
+    <td class="attr-value">/^\s*(if_([-\w]+))\b\s*([^(-&gt;)\[]*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
@@ -182,7 +180,7 @@ if_node pattern.
   <tr valign='top'>
     <td class="attr-name">Edge_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*\w+[-\w]*\b\s*(?:-&gt;)\s*\w+[-\w]*\b\s*(.*)$/</td>
+    <td class="attr-value">/^\s*(\w+[-\w]*\b\s*(?:-&gt;)\s*\w+[-\w]*)\b\s*(.*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
@@ -197,12 +195,23 @@ edge pattern: Node_pat -&gt; Node_pat rest
 <div class="sectiontitle">Public Class methods</div>
 <div class="method">
   <div class="title">
-    <a name="M000004"></a><b>definition?</b>(pat,line)
-[ <a href="javascript:openCode('Wdot.src/M000004.html')">source</a> ]
+    <a name="M000007"></a><b>definition?</b>(pat,line)
+[ <a href="javascript:openCode('Wdot.src/M000007.html')">source</a> ]
   </div>
   <div class="description">
   <p>
 Is line a definition, give pat?
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000005"></a><b>edge_parse</b>(line)
+[ <a href="javascript:openCode('Wdot.src/M000005.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Parse an edge definition. eg a-&gt;b &quot;A to B&quot;
 </p>
   </div>
 </div>
@@ -214,6 +223,28 @@ Is line a definition, give pat?
   <div class="description">
   <p>
 Parse the :head tag
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000006"></a><b>if_node_parse</b>(line)
+[ <a href="javascript:openCode('Wdot.src/M000006.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Parse an if_node. eg. if_ok
+</p>
+  </div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000004"></a><b>node_parse</b>(line)
+[ <a href="javascript:openCode('Wdot.src/M000004.html')">source</a> ]
+  </div>
+  <div class="description">
+  <p>
+Parse a node definition.
 </p>
   </div>
 </div>

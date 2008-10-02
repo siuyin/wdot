@@ -43,6 +43,17 @@ END
     assert_equal expected1, Wdot.head_parse(':head "LR" "My Title" {'), 't4'
     assert_equal expected1, Wdot.head_parse(':head "LR", "My Title" {'), 't5'
     assert_equal expected1, Wdot.head_parse(':head LR,"My Title"{'), 't6'
+
+    expected3 = <<END
+digraph G {
+  graph [ label="", bgcolor="white",
+    fontname="Arial", rankdir="LR"]
+  node [fontname="Arial", shape="box",
+    style="filled", fillcolor="AliceBlue"]
+  edge [fontname="Arial", color="Blue",
+    dir="forward"]
+END
+    assert_equal expected3, Wdot.head_parse(':head LR {'), 't7'
   end
   
   def test_node_def?
@@ -56,6 +67,8 @@ END
       '-start-node') , 't4'
     assert_equal false, Wdot.definition?(Wdot::Node_pat,
       'a [') , 't5'
+    assert_equal true, Wdot.definition?(Wdot::Node_pat,
+      'aes_3 "aes-3"') , 't6'
   end
   def test_start_node_def?
     assert_equal true, Wdot.definition?(Wdot::Start_node_pat,
@@ -114,5 +127,18 @@ _start [label="Begin", shape="circle",
   fillcolor="LightPink"]
 ENDSTR
     assert_equal str2, Wdot.start_node_parse('_start "Begin"'), 't2'
+  end
+  def test_node_parse
+    assert_equal "a [label=\"A-node\"]\n", Wdot.node_parse('a "A-node"'), 't1'
+    assert_equal "a [label=\"a\"]\n", Wdot.node_parse('a'), 't2'
+    assert_equal "a [label=\"a\"]\n", Wdot.node_parse(' a  '), 't3'
+  end
+  def test_edge_parse
+    assert_equal "a->b [label=\"A to B\"]\n", Wdot.edge_parse('a->b "A to B"'), 't1'
+    assert_equal "a->b [label=\"\"]\n", Wdot.edge_parse('a->b'), 't2'
+  end
+  def test_if_node_parse
+    assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok'), 't1'
+    assert_equal "if_ok [label=\"Good ?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok "Good ?"'), 't2'
   end
 end
