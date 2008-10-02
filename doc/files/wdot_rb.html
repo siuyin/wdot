@@ -1,0 +1,253 @@
+
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>File: wdot.rb</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table border='0' cellpadding='0' cellspacing='0' width="100%" class='banner'>
+  <tr><td>
+    <table width="100%" border='0' cellpadding='0' cellspacing='0'><tr>
+      <td class="file-title" colspan="2"><span class="file-title-prefix">File</span><br />wdot.rb</td>
+      <td align="right">
+        <table border='0' cellspacing="0" cellpadding="2">
+          <tr>
+            <td>Path:</td>
+            <td>wdot.rb
+            </td>
+          </tr>
+          <tr>
+            <td>Modified:</td>
+            <td>Tue Sep 30 16:21:11 +0800 2008</td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+</table><br>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><h1>wdot.rb - Workflow / Flowchart extensions to grahpviz&#8216;s dot language.</h1>
+<p>
+License: GPL v2 or (at your option) any later version. See <a
+href="http://www.fsf.org/licensing">www.fsf.org/licensing</a> .
+</p>
+<p>
+Copyright (C) 2008, Loh Siu Yin (siuyin@beyondbroadcast.com)
+</p>
+<p>
+Graphviz&#8216;s dot language ( <a
+href="http://www.graphviz.org">www.graphviz.org</a> ) is a very flexible
+language that can generate graph images (.png, .svg etc) from a text file.
+However for creating workflow diagrams dot is very repetitious and rather
+verbose. In the spirit of &quot;Don&#8216;t Repeat Yourself&quot;, I wrote
+wdot.rb to eliminate most of the repetitious effort while still retaining
+the full flexibility of dot when I need it.
+</p>
+<p>
+wdot.rb allows you to quickly create workflow diagrams / flowcharts easily
+from text files. As text files these can be updated with any text editor
+resulting in easily updateable diagrams.
+</p>
+<h2>Usage</h2>
+<p>
+wdot.rb &lt; &lt;sourcefile&gt; | dot -T&lt;fmt&gt; -o &lt;outputfile&gt;
+</p>
+<pre>
+ eg. wdot.rb &lt; my_diagram.wdot | dot -Tpng -o my_diagram.png
+</pre>
+<h2>Examples</h2>
+<pre>
+ # my_diagram.wdot
+ :head  {
+ _start
+ _end
+ proc1
+ _start-&gt;proc1-&gt;_end
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d010.png" />
+</p>
+<hr size="1"></hr><pre>
+ # my_diagram.wdot - with title and LR orientation
+ :head  &quot;My Diagram&quot;, LR {
+ _start
+ _end
+ proc1
+ _start-&gt;proc1-&gt;_end
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d020.png" />
+</p>
+<hr size="1"></hr><pre>
+ # my_diagram.wdot - node descriptions
+ :head  &quot;My Diagram&quot;, LR {
+ _start &quot;Start here.&quot;
+ _end &quot;All done.&quot;
+ proc1 &quot;Complex\nprocessing\nhere.&quot;
+ _start-&gt;proc1-&gt;_end
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d030.png" />
+</p>
+<hr size="1"></hr><pre>
+ # my_diagram.wdot - edge descriptions
+ :head  &quot;My Diagram&quot;, LR {
+ _start &quot;Start&quot;
+ _end &quot;Done&quot;
+ proc1 &quot;Complex\nprocessing\nhere.&quot;
+ _start-&gt;proc1 &quot;begin&quot;
+ proc1-&gt;_end &quot;finish up&quot;
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d040.png" />
+</p>
+<hr size="1"></hr><pre>
+ # my_diagram.wdot - if .. then .. else
+ :head  &quot;My Diagram&quot;, LR {
+ _start &quot;Start&quot;
+ _end &quot;Done&quot;
+ proc1 &quot;Complex\nprocessing\nhere.&quot;
+ if_check_ok
+
+ _start-&gt;proc1
+ proc1-&gt;if_check_ok
+ if_check_ok-&gt;_end &quot;Y&quot;
+ if_check_ok-&gt;proc1 &quot;N: redo&quot;
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d050.png" />
+</p>
+<hr size="1"></hr><pre>
+ # my_diagram.wdot - comments
+ /* My workflow diagram.
+  */
+ :head  &quot;My Diagram&quot;, LR {
+ // Nodes - note: leading whitespace or blank lines not significant
+ _start &quot;Start&quot;
+ _end &quot;Done&quot;
+ proc1 &quot;Complex\nprocessing\nhere.&quot;
+ if_check_ok &quot;Check:\na. This\nb. That\nAll OK?&quot;
+
+ // Links
+ _start-&gt;proc1
+ proc1-&gt;if_check_ok
+ if_check_ok-&gt;_end &quot;Y&quot;
+ if_check_ok-&gt;proc1 &quot;N: redo&quot;
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d060.png" />
+</p>
+<hr size="1"></hr><pre>
+ # my_diagram.wdot - override using underlying dot for flexibility.
+ /* My workflow diagram.
+  */
+ :head  &quot;My Diagram&quot;, LR {
+ // Nodes - note: leading whitespace or blank lines not significant
+ _start &quot;Start&quot;
+ _end &quot;Done&quot;
+ proc1 [label=&quot;Dangerous Process&quot; fillcolor=&quot;red&quot; shape=&quot;hexagon&quot;]
+ if_check_ok &quot;Check:\na. This\nb. That\nAll OK?&quot;
+
+ // Links
+ _start-&gt;proc1
+ proc1-&gt;if_check_ok
+ if_check_ok-&gt;_end &quot;Y&quot;
+ if_check_ok-&gt;proc1 [label=&quot;N: redo&quot; fontcolor=&quot;red&quot; color=&quot;magenta&quot; style=&quot;bold&quot; arrowtail=&quot;inv&quot;]
+ }
+ produces:
+</pre>
+<p>
+<img src="../img/d070.png" />
+</p>
+<h2>Requirements</h2>
+<ul>
+<li>wdot.rb &#8212; this file. Download from <a
+href="http://www.beyondbroadcast.com/cms/wdot">www.beyondbroadcast.com/cms/wdot</a>
+
+</li>
+<li>graphviz &#8212; download from <a
+href="http://www.graphviz.org">www.graphviz.org</a>
+
+</li>
+<li>ruby &#8212; download from <a
+href="http://www.ruby-lang.org">www.ruby-lang.org</a>
+
+</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+  </div>
+
+    </body>
+</html>
