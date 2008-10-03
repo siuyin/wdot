@@ -1,6 +1,6 @@
 #! /usr/bin/ruby
 require 'test/unit'
-require 'wdot'
+require File.dirname(__FILE__)+'/../wdot.rb'
 
 class TestWdot < Test::Unit::TestCase
   #def setup
