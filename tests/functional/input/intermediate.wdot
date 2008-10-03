@@ -1,0 +1,16 @@
+/* My file
+ */
+:head LR {
+_s 
+_e "End"
+a "Node A"
+b
+if_ok
+
+// Links
+_s->a "begin"
+a->if_ok
+if_ok->a "N"
+if_ok->b "Y"
+b->_e
+}

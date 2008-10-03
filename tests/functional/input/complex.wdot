@@ -1,0 +1,17 @@
+/* My file
+ */
+:head "My Title", LR {
+// Nodes
+_s "Start"
+_e "End"
+a "Node A"
+b [label = "Node B", shape="ellipse"]
+if_ok "Running ?"
+
+// Links
+_s->a "begin"
+a->if_ok
+if_ok->a "N"
+if_ok->b "Y"
+b->_e [ dir="none"]
+}

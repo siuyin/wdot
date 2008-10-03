@@ -163,7 +163,7 @@ class Wdot
   If_node_pat = /^\s*(if_([-\w]+))\b\s*([^(->)\[]*)$/
 
   # edge pattern: Node_pat -> Node_pat rest
-  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(.*)$/
+  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*([^\[]*)$/
 
   # Split a string delimited by space of comma but
   # keep quoted values together.
@@ -259,10 +259,10 @@ if $0 == __FILE__
       puts Wdot.head_parse(line)
     elsif Wdot.definition?(Wdot::Start_node_pat,line)
       puts Wdot.start_node_parse(line)
-    elsif Wdot.definition?(Wdot::Node_pat,line)
-      puts Wdot.node_parse(line)
     elsif Wdot.definition?(Wdot::If_node_pat,line)
       puts Wdot.if_node_parse(line)
+    elsif Wdot.definition?(Wdot::Node_pat,line)
+      puts Wdot.node_parse(line)
     elsif Wdot.definition?(Wdot::Edge_pat,line)
       puts Wdot.edge_parse(line)
     else

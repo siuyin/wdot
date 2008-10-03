@@ -1,0 +1,9 @@
+digraph G {
+  graph [ label="", bgcolor="white",
+    fontname="Arial", rankdir="TB"]
+  node [fontname="Arial", shape="box",
+    style="filled", fillcolor="AliceBlue"]
+  edge [fontname="Arial", color="Blue",
+    dir="forward"]
+a -> b [label=""]
+}

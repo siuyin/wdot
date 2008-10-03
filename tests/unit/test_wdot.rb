@@ -1,6 +1,6 @@
 #! /usr/bin/ruby
 require 'test/unit'
-require File.dirname(__FILE__)+'/../wdot.rb'
+require File.dirname(__FILE__)+'/../../wdot.rb'
 
 class TestWdot < Test::Unit::TestCase
   #def setup
@@ -115,6 +115,8 @@ END
       'a -> b "something"'), 't3'
     assert_equal true, Wdot.definition?(Wdot::Edge_pat,
       'a->b "something"'), 't4'
+    assert_equal false, Wdot.definition?(Wdot::Edge_pat,
+      'a->b ["something"]'), 't5'
   end
   def test_start_node_parse
     str1 = <<ENDSTR
@@ -139,6 +141,7 @@ ENDSTR
   end
   def test_if_node_parse
     assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok'), 't1'
-    assert_equal "if_ok [label=\"Good ?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok "Good ?"'), 't2'
+    assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok '), 't2'
+    assert_equal "if_ok [label=\"Good ?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok "Good ?"'), 't3'
   end
 end

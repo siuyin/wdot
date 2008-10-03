@@ -1,0 +1,25 @@
+/* My file
+ */
+digraph G {
+  graph [ label="My Title", bgcolor="white",
+    fontname="Arial", rankdir="LR"]
+  node [fontname="Arial", shape="box",
+    style="filled", fillcolor="AliceBlue"]
+  edge [fontname="Arial", color="Blue",
+    dir="forward"]
+// Nodes
+_s [label="Start", shape="circle",
+  fillcolor="LightPink"]
+_e [label="End", shape="circle",
+  fillcolor="LightPink"]
+a [label="Node A"]
+b [label = "Node B", shape="ellipse"]
+if_ok [label="Running ?",shape="diamond"]
+
+// Links
+_s->a [label="begin"]
+a->if_ok [label=""]
+if_ok->a [label="N"]
+if_ok->b [label="Y"]
+b->_e [ dir="none"]
+}
