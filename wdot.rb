@@ -114,6 +114,8 @@
 #  }
 #  produces: 
 # link:img/d070.png
+# == Frequently Asked Questions?
+# See here[link:files/FAQ.html].
 #
 # == Requirements
 # * wdot.rb -- this file. Download from http://www.beyondbroadcast.com/cms/wdot 
@@ -128,7 +130,6 @@
 # * node
 # * if_node
 # * edge
-require 'yaml'
 
 class Wdot
   # Class variables.
@@ -253,14 +254,6 @@ ENDSTR
     return ret
   end
 
-  # Dump class variables
-  def Wdot.dump_class_variables
-    config={}
-    class_variables.each { |v|
-      config[v] = class_variable_get v
-    }
-    YAML.dump config
-  end
 end
 
 #######################################################################

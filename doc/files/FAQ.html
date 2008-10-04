@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>File: FAQ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+
+        function toggleSource( id )
+        {
+          var elem
+          var link
+
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "width=400,height=400,scrollbars=yes" )
+        }
+      // ]]>
+    </script>
+  </head>
+
+  <body>
+  <table border='0' cellpadding='0' cellspacing='0' width="100%" class='banner'>
+  <tr><td>
+    <table width="100%" border='0' cellpadding='0' cellspacing='0'><tr>
+      <td class="file-title" colspan="2"><span class="file-title-prefix">File</span><br />FAQ</td>
+      <td align="right">
+        <table border='0' cellspacing="0" cellpadding="2">
+          <tr>
+            <td>Path:</td>
+            <td>FAQ
+            </td>
+          </tr>
+          <tr>
+            <td>Modified:</td>
+            <td>Sat Oct 04 16:47:07 +0800 2008</td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+</table><br>
+ <!-- banner header -->
+
+  <div id="bodyContent">
+      <div id="content">
+
+  <div class="description"><h1>wdot.rb - Frequently Asked Questions</h1>
+<p>
+What is the format of a :head tag?
+</p>
+<pre>
+ :head followed by a TITLE and a DIRECTION {
+
+ example: :head &quot;My Title&quot; LR {
+ or :head &quot;My Title&quot;, LR {
+
+ - TITLE should be in double-quotes eg. &quot;My Title&quot;
+ - DIRECTION can be one of LR RL TB or BT
+</pre>
+<p>
+Is the closing brace { needed a the end of a .wdot file?
+</p>
+<pre>
+ Yes.
+</pre>
+<p>
+What is allowed inside a node label?
+</p>
+<pre>
+ Anything this is not a &quot;, eg. &quot;[This is a legal node-&gt;label!]&quot;
+</pre>
+<p>
+Why not use dot directly?
+</p>
+<pre>
+ It save a lot of typing.
+ with wdot:
+  /* My file
+   */
+  :head &quot;My Title&quot;, LR {
+  // Nodes
+  _s &quot;[Start-&gt;here]&quot;
+  _e &quot;End&quot;
+  a &quot;!Node-A!&quot;
+  b [label = &quot;Node B&quot;, shape=&quot;ellipse&quot;]
+  if_ok &quot;Running ?&quot;
+
+  // Links
+  _s-&gt;a &quot;begin&quot;
+  a-&gt;if_ok
+  if_ok-&gt;a &quot;N&quot;
+  if_ok-&gt;b &quot;Y&quot;
+  b-&gt;_e [ dir=&quot;none&quot;]
+  }
+
+ using only dot:
+  /* My file
+   */
+  digraph G {
+    graph [ label=&quot;My Title&quot;, bgcolor=&quot;white&quot;,
+      fontname=&quot;Arial&quot;, rankdir=&quot;LR&quot;]
+    node [fontname=&quot;Arial&quot;, shape=&quot;box&quot;,
+      style=&quot;filled&quot;, fillcolor=&quot;AliceBlue&quot;]
+    edge [fontname=&quot;Arial&quot;, color=&quot;Blue&quot;,
+      dir=&quot;forward&quot;]
+  // Nodes
+  _s [label=&quot;[Start-&gt;here]&quot;, shape=&quot;circle&quot;,
+    fillcolor=&quot;LightPink&quot;]
+  _e [label=&quot;End&quot;, shape=&quot;circle&quot;,
+    fillcolor=&quot;LightPink&quot;]
+  a [label=&quot;!Node-A!&quot;]
+  b [label = &quot;Node B&quot;, shape=&quot;ellipse&quot;]
+  if_ok [label=&quot;Running ?&quot;,shape=&quot;diamond&quot;]
+
+  // Links
+  _s-&gt;a [label=&quot;begin&quot;]
+  a-&gt;if_ok [label=&quot;&quot;]
+  if_ok-&gt;a [label=&quot;N&quot;]
+  if_ok-&gt;b [label=&quot;Y&quot;]
+  b-&gt;_e [ dir=&quot;none&quot;]
+  }
+</pre>
+<p>
+Who wrote wdot?
+</p>
+<pre>
+ wdot was written by Loh Siu Yin or SiuYin Loh for those
+ of you in the west. He wrote wdot to help him
+ in his work as a broadcast technology and management
+ consultant with Beyond Broadcast LLP.
+</pre>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+  </div>
+
+    </body>
+</html>

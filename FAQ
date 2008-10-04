@@ -1,0 +1,71 @@
+= wdot.rb - Frequently Asked Questions
+
+What is the format of a :head tag?
+ :head followed by a TITLE and a DIRECTION {
+ 
+ example: :head "My Title" LR {
+ or :head "My Title", LR {
+ 
+ - TITLE should be in double-quotes eg. "My Title"
+ - DIRECTION can be one of LR RL TB or BT
+
+Is the closing brace { needed a the end of a .wdot file?
+ Yes.
+
+What is allowed inside a node label?
+ Anything this is not a ", eg. "[This is a legal node->label!]"
+
+Why not use dot directly?
+ It save a lot of typing.
+ with wdot:
+  /* My file
+   */
+  :head "My Title", LR {
+  // Nodes
+  _s "[Start->here]"
+  _e "End"
+  a "!Node-A!"
+  b [label = "Node B", shape="ellipse"]
+  if_ok "Running ?"
+
+  // Links
+  _s->a "begin"
+  a->if_ok
+  if_ok->a "N"
+  if_ok->b "Y"
+  b->_e [ dir="none"]
+  }
+
+ using only dot:
+  /* My file
+   */
+  digraph G {
+    graph [ label="My Title", bgcolor="white",
+      fontname="Arial", rankdir="LR"]
+    node [fontname="Arial", shape="box",
+      style="filled", fillcolor="AliceBlue"]
+    edge [fontname="Arial", color="Blue",
+      dir="forward"]
+  // Nodes
+  _s [label="[Start->here]", shape="circle",
+    fillcolor="LightPink"]
+  _e [label="End", shape="circle",
+    fillcolor="LightPink"]
+  a [label="!Node-A!"]
+  b [label = "Node B", shape="ellipse"]
+  if_ok [label="Running ?",shape="diamond"]
+
+  // Links
+  _s->a [label="begin"]
+  a->if_ok [label=""]
+  if_ok->a [label="N"]
+  if_ok->b [label="Y"]
+  b->_e [ dir="none"]
+  }
+
+Who wrote wdot?
+ wdot was written by Loh Siu Yin or SiuYin Loh for those
+ of you in the west. He wrote wdot to help him
+ in his work as a broadcast technology and management
+ consultant with Beyond Broadcast LLP.
+
