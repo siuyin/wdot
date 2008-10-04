@@ -2,9 +2,9 @@
  */
 :head "My Title", LR {
 // Nodes
-_s "Start"
+_s "[Start->here]"
 _e "End"
-a "Node A"
+a "!Node-A!"
 b [label = "Node B", shape="ellipse"]
 if_ok "Running ?"
 

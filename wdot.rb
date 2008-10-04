@@ -156,16 +156,17 @@ class Wdot
   # Pattern used to split head line - used by Wdot.tail .
 
   # Pattern - node definition.
-  Node_pat =             /^\s*(\w+[-\w]*)\b\s*([^(?:->)\[]*)$/ 
+  Node_pat =       /^\s*(\w+[-\w]*)\b\s*(?!->)((?:"[^"]*")*\s*)$/ 
+
   # Pattern - start_node definition eg. _begin
   # The parse patern is almost the same - just different capture groups.
-  Start_node_pat =       /^\s*(_(\w+[-\w]*))\b\s*([^(?:->)\[]*)$/
+  Start_node_pat = /^\s*(_(\w+[-\w]*))\b\s*(?!->)((?:"[^"]*")*\s*)$/
 
   # if_node pattern.
-  If_node_pat = /^\s*(if_([-\w]+))\b\s*([^(->)\[]*)$/
+  If_node_pat =    /^\s*(if_([-\w]+))\b\s*(?!->)((?:"[^"]*")*\s*)$/
 
   # edge pattern: Node_pat -> Node_pat rest
-  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*([^\[]*)$/
+  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(?!->)((?:"[^"]*")*\s*)$/
 
   # Split a string delimited by space of comma but
   # keep quoted values together.
@@ -266,16 +267,28 @@ end
 if $0 == __FILE__
   STDIN.each { |line|
     line.chomp!
+
+    # There are esssentially 3 patters we check for:
+    # # Head
+    # * Node - Including Start_node, If_node and generic node.
+    # * Edge
+    # If none of the above match then it is a customized line
+    # which we output unchanged.
     if    Wdot.definition?(Wdot::Head_pat,line)
       puts Wdot.head_parse(line)
-    elsif Wdot.definition?(Wdot::Start_node_pat,line)
-      puts Wdot.start_node_parse(line)
-    elsif Wdot.definition?(Wdot::If_node_pat,line)
-      puts Wdot.if_node_parse(line)
+    
     elsif Wdot.definition?(Wdot::Node_pat,line)
-      puts Wdot.node_parse(line)
+      if Wdot.definition?(Wdot::Start_node_pat,line)
+        puts Wdot.start_node_parse(line)
+      elsif Wdot.definition?(Wdot::If_node_pat,line)
+        puts Wdot.if_node_parse(line)
+      else
+        puts Wdot.node_parse(line)
+      end
+    
     elsif Wdot.definition?(Wdot::Edge_pat,line)
       puts Wdot.edge_parse(line)
+    
     else
       puts line
     end

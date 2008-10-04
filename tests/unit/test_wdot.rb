@@ -68,11 +68,11 @@ END
     assert_equal false, Wdot.definition?(Wdot::Node_pat,
       'a [') , 't5'
     assert_equal true, Wdot.definition?(Wdot::Node_pat,
-      'aes_3 "aes-3"') , 't6'
+      'aes_3 "[aes->3]"') , 't6'
   end
   def test_start_node_def?
     assert_equal true, Wdot.definition?(Wdot::Start_node_pat,
-      '  _start-node "Start Node"') , 't1'
+      '  _start-node "Start->Node"') , 't1'
     assert_equal false, Wdot.definition?(Wdot::Start_node_pat,
       '  _start-node->end "Finish"') , 't2'
     assert_equal false, Wdot.definition?(Wdot::Start_node_pat,
@@ -81,7 +81,7 @@ END
       '_start [label="my label"]') , 't4'
     assert_equal true, Wdot.definition?(Wdot::Start_node_pat,
       '_start') , 't5'
-    assert_equal true, Wdot.definition?(Wdot::Start_node_pat,
+    assert_equal false, Wdot.definition?(Wdot::Start_node_pat,
       '_start abc') , 't6'
     assert_equal false, Wdot.definition?(Wdot::Start_node_pat,
       '_s [') , 't7'
@@ -97,14 +97,24 @@ END
       'if_working'), 't1'
     assert_equal true, Wdot.definition?(Wdot::If_node_pat,
       '  if_working "Working?" '), 't2'
-    assert_equal false, Wdot.definition?(Wdot::If_node_pat,
-      '  if_working->fail "Working?" '), 't3'
+
+    str = '  if_working->fail "Working?" '
+    assert_equal false, 
+      Wdot.definition?(Wdot::If_node_pat, str)\
+      && Wdot.definition?(Wdot::Node_pat, str), 't3'
+    
     assert_equal true, Wdot.definition?(Wdot::If_node_pat,
       'if_-a "negative A"'), 't4'
     assert_equal false, Wdot.definition?(Wdot::If_node_pat,
       'if_- "negative val"'), 't5'
-    assert_equal false, Wdot.definition?(Wdot::If_node_pat,
-      'if_a ['), 't6'
+
+    str = 'if_a ['
+    assert_equal false, 
+      Wdot.definition?(Wdot::If_node_pat, str)\
+      && Wdot.definition?(Wdot::Node_pat, str), 't6'
+    
+    assert_equal true, Wdot.definition?(Wdot::If_node_pat,
+      '  if_working "(Working?)" '), 't2'
   end
   def test_edge_def?
     assert_equal true, Wdot.definition?(Wdot::Edge_pat,

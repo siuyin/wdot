@@ -8,11 +8,11 @@ digraph G {
   edge [fontname="Arial", color="Blue",
     dir="forward"]
 // Nodes
-_s [label="Start", shape="circle",
+_s [label="[Start->here]", shape="circle",
   fillcolor="LightPink"]
 _e [label="End", shape="circle",
   fillcolor="LightPink"]
-a [label="Node A"]
+a [label="!Node-A!"]
 b [label = "Node B", shape="ellipse"]
 if_ok [label="Running ?",shape="diamond"]
 

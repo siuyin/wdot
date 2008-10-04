@@ -123,7 +123,7 @@ Pattern to match :head tag.
   <tr valign='top'>
     <td class="attr-name">Node_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*(\w+[-\w]*)\b\s*([^(?:-&gt;)\[]*)$/</td>
+    <td class="attr-value">/^\s*(\w+[-\w]*)\b\s*(?!-&gt;)((?:&quot;[^&quot;]*&quot;)*\s*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
@@ -135,7 +135,7 @@ Pattern - node definition.
   <tr valign='top'>
     <td class="attr-name">Start_node_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*(_(\w+[-\w]*))\b\s*([^(?:-&gt;)\[]*)$/</td>
+    <td class="attr-value">/^\s*(_(\w+[-\w]*))\b\s*(?!-&gt;)((?:&quot;[^&quot;]*&quot;)*\s*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
@@ -148,7 +148,7 @@ same - just different capture groups.
   <tr valign='top'>
     <td class="attr-name">If_node_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*(if_([-\w]+))\b\s*([^(-&gt;)\[]*)$/</td>
+    <td class="attr-value">/^\s*(if_([-\w]+))\b\s*(?!-&gt;)((?:&quot;[^&quot;]*&quot;)*\s*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
@@ -160,7 +160,7 @@ if_node pattern.
   <tr valign='top'>
     <td class="attr-name">Edge_pat</td>
     <td>=</td>
-    <td class="attr-value">/^\s*(\w+[-\w]*\b\s*(?:-&gt;)\s*\w+[-\w]*)\b\s*([^\[]*)$/</td>
+    <td class="attr-value">/^\s*(\w+[-\w]*\b\s*(?:-&gt;)\s*\w+[-\w]*)\b\s*(?!-&gt;)((?:&quot;[^&quot;]*&quot;)*\s*)$/</td>
   </tr>
   <tr valign='top'>
     <td>&nbsp;</td>
