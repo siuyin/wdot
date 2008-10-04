@@ -128,6 +128,8 @@
 # * node
 # * if_node
 # * edge
+require 'yaml'
+
 class Wdot
   # Class variables.
   @@rankdir = 'TB'
@@ -248,6 +250,15 @@ ENDSTR
       ret = true
     end
     return ret
+  end
+
+  # Dump class variables
+  def Wdot.dump_class_variables
+    config={}
+    class_variables.each { |v|
+      config[v] = class_variable_get v
+    }
+    YAML.dump config
   end
 end
 

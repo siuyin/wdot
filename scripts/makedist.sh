@@ -1,8 +1,8 @@
 #!/bin/sh
-REL=0.2.1
 
 WDOT_HOME='/home/siuyin/prog/ruby/wdot'
 cd $WDOT_HOME
+read < scripts/RELEASE REL
 echo "wdot-$REL" > README
 cat scripts/README.in >> README
 cd ..
