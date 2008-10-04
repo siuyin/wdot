@@ -156,18 +156,30 @@ class Wdot
   Head_pat = /\s*:head\b\s*(.*)$/i
   # Pattern used to split head line - used by Wdot.tail .
 
-  # Pattern - node definition.
-  Node_pat =       /^\s*(\w+[-\w]*)\b\s*(?!->)((?:"[^"]*")*\s*)$/ 
+  # Pattern - node definition. 
+  Node_pat = /^\s*(\w+[-\w]*)\b\s*
+    # Must not be followed with -> .
+    (?!->)
+    # Capture group 2 - starting with the " .
+    (?:"
+      (
+    # Followed by anything that is not " or \ .
+        (?:[^"\\]*
+    # Followed by " or \ .
+          (?:["\\])*
+        )*
+      )"
+    # Capture group 2 ending with " .
+    )*\s*$/x
 
   # Pattern - start_node definition eg. _begin
   # The parse patern is almost the same - just different capture groups.
-  Start_node_pat = /^\s*(_(\w+[-\w]*))\b\s*(?!->)((?:"[^"]*")*\s*)$/
+  Start_node_pat = /^\s*(_(\w+[-\w]*))\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
 
   # if_node pattern.
-  If_node_pat =    /^\s*(if_([-\w]+))\b\s*(?!->)((?:"[^"]*")*\s*)$/
-
+  If_node_pat =     /^\s*(if_([-\w]+))\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
   # edge pattern: Node_pat -> Node_pat rest
-  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(?!->)((?:"[^"]*")*\s*)$/
+  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
 
   # Split a string delimited by space of comma but
   # keep quoted values together.
@@ -206,7 +218,7 @@ STR
     line.match Start_node_pat
     full_node_name = $1
     node_name = $2
-    node_name = $3.gsub('"','') if $3.strip != ''
+    node_name = $3 if $3
     parse_string = <<STR
 #{full_node_name} [label="#{node_name}", shape="#{@@start_node_shape}",
   fillcolor="#{@@start_node_fillcolor}"]
@@ -218,7 +230,7 @@ STR
     line.match Node_pat
     node_name = $1
     title = $1
-    title = $2.gsub('"','') if $2.strip != ''
+    title = $2 if $2
     parse_string = <<ENDSTR
 #{node_name} [label="#{title}"]
 ENDSTR
@@ -228,7 +240,7 @@ ENDSTR
   def Wdot.edge_parse(line)
     line.match Edge_pat
     edge_def=$1
-    title = $2.gsub('"','') if $2.strip != ''
+    title = $2 if $2
     parse_string = <<ENDSTR
 #{edge_def} [label="#{title}"]
 ENDSTR
@@ -239,7 +251,7 @@ ENDSTR
     line.match If_node_pat
     node_name=$1
     title = "#{$2}?"
-    title = $3.gsub('"','') if $3.strip != ''
+    title = $3 if $3
     parse_string = <<ENDSTR
 #{node_name} [label="#{title}",shape="diamond"]
 ENDSTR

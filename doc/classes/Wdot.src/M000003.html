@@ -22,12 +22,12 @@
 </style>
 </head>
 <body bgcolor="white">
-<pre><span class="ruby-comment cmt"># File wdot.rb, line 206</span>
+<pre><span class="ruby-comment cmt"># File wdot.rb, line 218</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Wdot</span>.<span class="ruby-identifier">start_node_parse</span>(<span class="ruby-identifier">line</span>)
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">match</span> <span class="ruby-constant">Start_node_pat</span>
     <span class="ruby-identifier">full_node_name</span> = <span class="ruby-identifier">$1</span>
     <span class="ruby-identifier">node_name</span> = <span class="ruby-identifier">$2</span>
-    <span class="ruby-identifier">node_name</span> = <span class="ruby-identifier">$3</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">'&quot;'</span>,<span class="ruby-value str">''</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$3</span>.<span class="ruby-identifier">strip</span> <span class="ruby-operator">!=</span> <span class="ruby-value str">''</span>
+    <span class="ruby-identifier">node_name</span> = <span class="ruby-identifier">$3</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$3</span>
     <span class="ruby-identifier">parse_string</span> = <span class="ruby-value str">&quot;\#{full_node_name} [label=\&quot;\#{node_name}\&quot;, shape=\&quot;\#{@@start_node_shape}\&quot;,\n  fillcolor=\&quot;\#{@@start_node_fillcolor}\&quot;]\n&quot;</span>
   <span class="ruby-keyword kw">end</span></pre>
 </body>

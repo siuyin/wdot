@@ -22,11 +22,11 @@
 </style>
 </head>
 <body bgcolor="white">
-<pre><span class="ruby-comment cmt"># File wdot.rb, line 231</span>
+<pre><span class="ruby-comment cmt"># File wdot.rb, line 243</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Wdot</span>.<span class="ruby-identifier">edge_parse</span>(<span class="ruby-identifier">line</span>)
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">match</span> <span class="ruby-constant">Edge_pat</span>
     <span class="ruby-identifier">edge_def</span>=<span class="ruby-identifier">$1</span>
-    <span class="ruby-identifier">title</span> = <span class="ruby-identifier">$2</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">'&quot;'</span>,<span class="ruby-value str">''</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$2</span>.<span class="ruby-identifier">strip</span> <span class="ruby-operator">!=</span> <span class="ruby-value str">''</span>
+    <span class="ruby-identifier">title</span> = <span class="ruby-identifier">$2</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$2</span>
     <span class="ruby-identifier">parse_string</span> = <span class="ruby-value str">&quot;\#{edge_def} [label=\&quot;\#{title}\&quot;]\n&quot;</span>
   <span class="ruby-keyword kw">end</span></pre>
 </body>

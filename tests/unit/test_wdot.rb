@@ -69,6 +69,8 @@ END
       'a [') , 't5'
     assert_equal true, Wdot.definition?(Wdot::Node_pat,
       'aes_3 "[aes->3]"') , 't6'
+    assert_equal true, Wdot.definition?(Wdot::Node_pat,
+      'aes_3 "[aes->\"3\"]"') , 't7'
   end
   def test_start_node_def?
     assert_equal true, Wdot.definition?(Wdot::Start_node_pat,
@@ -135,23 +137,25 @@ _start [label="start", shape="circle",
 ENDSTR
     assert_equal str1, Wdot.start_node_parse('_start'), 't1'
     str2 = <<ENDSTR
-_start [label="Begin", shape="circle",
+_start [label="Begin \\"here\\"", shape="circle",
   fillcolor="LightPink"]
 ENDSTR
-    assert_equal str2, Wdot.start_node_parse('_start "Begin"'), 't2'
+    assert_equal str2, Wdot.start_node_parse('_start "Begin \"here\""'), 't2'
   end
   def test_node_parse
-    assert_equal "a [label=\"A-node\"]\n", Wdot.node_parse('a "A-node"'), 't1'
+    assert_equal "a [label=\"\\\"A\\\"-node\"]\n", Wdot.node_parse('a "\"A\"-node"'), 't1'
     assert_equal "a [label=\"a\"]\n", Wdot.node_parse('a'), 't2'
     assert_equal "a [label=\"a\"]\n", Wdot.node_parse(' a  '), 't3'
   end
   def test_edge_parse
     assert_equal "a->b [label=\"A to B\"]\n", Wdot.edge_parse('a->b "A to B"'), 't1'
     assert_equal "a->b [label=\"\"]\n", Wdot.edge_parse('a->b'), 't2'
+    assert_equal "a->b [label=\"A to \\\"B\\\"\"]\n", Wdot.edge_parse('a->b "A to \"B\""'), 't3'
   end
   def test_if_node_parse
     assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok'), 't1'
     assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok '), 't2'
     assert_equal "if_ok [label=\"Good ?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok "Good ?"'), 't3'
+    assert_equal "if_ok [label=\"\\\"Good\\\" ?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok "\"Good\" ?"'), 't4'
   end
 end
