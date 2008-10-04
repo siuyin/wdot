@@ -1,5 +1,7 @@
 = wdot.rb - Frequently Asked Questions
 
+Home[link:files/wdot_rb.html]
+
 What is the format of a :head tag?
  :head followed by a TITLE and a DIRECTION {
  
