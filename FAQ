@@ -11,7 +11,7 @@ What is the format of a :head tag?
  - TITLE should be in double-quotes eg. "My Title"
  - DIRECTION can be one of LR RL TB or BT
 
-Is the closing brace { needed a the end of a .wdot file?
+Is the closing brace } needed a the end of a .wdot file?
  Yes.
 
 What is allowed inside a node label?
