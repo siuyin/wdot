@@ -27,11 +27,12 @@
     <span class="ruby-identifier">title</span> = <span class="ruby-value str">''</span>
     <span class="ruby-identifier">line</span>.<span class="ruby-identifier">match</span> <span class="ruby-constant">Head_pat</span>
     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>.<span class="ruby-identifier">strip</span> <span class="ruby-operator">!=</span> <span class="ruby-value str">''</span>
-      <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">split</span>(<span class="ruby-identifier">$1</span>)
+      <span class="ruby-identifier">ret</span> = <span class="ruby-constant">Wdot</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">$1</span>)
       <span class="ruby-identifier">ret</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">e</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^&quot;?(TB|BT|RL|LR)&quot;?$/i</span>
           <span class="ruby-ivar">@@rankdir</span> = <span class="ruby-identifier">$1</span>
-        <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">e</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^&quot;?([-,\s\w]+)&quot;?$/</span>
+        <span class="ruby-comment cmt">#elsif e =~ /^&quot;?([-,\s\w]+)&quot;?$/</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">e</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^(?:(?:&quot;((?:[^&quot;\\]*[&quot;\\]*)*)&quot;)*)$/</span>
           <span class="ruby-identifier">title</span> = <span class="ruby-identifier">$1</span>
         <span class="ruby-keyword kw">end</span>
       }

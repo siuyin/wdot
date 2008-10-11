@@ -65,6 +65,16 @@ Why not use dot directly?
   b->_e [ dir="none"]
   }
 
+I'm having problems running graphviz under Microsoft Windows.
+  There is currently a problem with the windows
+  installation of graphviz v0.21 where it is not able to 
+  find fonts installed on Microsoft Windows.
+
+What was used to write wdot.rb?
+  wdot.rb is written in the ruby programming language.
+  It was developed and tested on the GNU/Linux
+  operating system.
+
 Who wrote wdot?
  wdot was written by Loh Siu Yin or SiuYin Loh for those
  of you in the west. He wrote wdot to help him
