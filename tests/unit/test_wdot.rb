@@ -54,6 +54,17 @@ digraph G {
     dir="forward"]
 END
     assert_equal expected3, Wdot.head_parse(':head LR {'), 't7'
+
+    expected4 = <<END
+digraph G {
+  graph [ label="with (brackets)", bgcolor="white",
+    fontname="Arial", rankdir="LR"]
+  node [fontname="Arial", shape="box",
+    style="filled", fillcolor="AliceBlue"]
+  edge [fontname="Arial", color="Blue",
+    dir="forward"]
+END
+    assert_equal expected4, Wdot.head_parse(':head "with (brackets)", LR {'), 't7'
   end
   
   def test_node_def?

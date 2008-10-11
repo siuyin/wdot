@@ -193,11 +193,12 @@ class Wdot
     title = ''
     line.match Head_pat
     if $1.strip != ''
-      ret = split($1)
+      ret = Wdot.split($1)
       ret.each { |e|
         if e =~ /^"?(TB|BT|RL|LR)"?$/i
           @@rankdir = $1
-        elsif e =~ /^"?([-,\s\w]+)"?$/
+        #elsif e =~ /^"?([-,\s\w]+)"?$/
+        elsif e =~ /^(?:(?:"((?:[^"\\]*["\\]*)*)")*)$/
           title = $1
         end
       }
