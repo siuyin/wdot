@@ -66,9 +66,13 @@ Why not use dot directly?
   }
 
 I'm having problems running graphviz under Microsoft Windows.
-  There is currently a problem with the windows
+  There is currently a problem with the windows 
   installation of graphviz v0.21 where it is not able to 
-  find fonts installed on Microsoft Windows.
+  find fonts installed on Microsoft Windows 98.
+
+  On Windows XP it is not able to find the path to the dot.exe
+  use control panel / performance and maintenance / system / advanced /
+  environment variables to set the path to graphviz_install_dir/bin .
 
 What was used to write wdot.rb?
   wdot.rb is written in the ruby programming language.
