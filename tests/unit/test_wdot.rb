@@ -203,6 +203,12 @@ ENDSTR
     assert_equal %Q{a->b [label="A to B" dir="both"]\n}, Wdot.edge_parse('a<->b "A to B"')
     assert_equal %Q{a->b [label="A to B" dir="both"]\n}, Wdot.edge_parse('a <-> b "A to B"')
   end
+  def test_edge_parse_with_crow_arrow
+    assert_equal %Q{a->b [label="A to B" arrowhead="crow"]\n}, Wdot.edge_parse('a-<b "A to B"')
+  end
+  def test_edge_parse_with_reverse_crow_arrow
+    assert_equal %Q{a->b [label="A to B" arrowtail="crow" arrowhead="none"]\n}, Wdot.edge_parse('a>-b "A to B"')
+  end
 
   def test_if_node_parse
     assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok'), 't1'

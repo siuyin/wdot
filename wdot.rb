@@ -220,14 +220,13 @@ class Wdot
   # if_node pattern.
   If_node_pat =     /^\s*(if_([-\w]+))\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
   # edge pattern: Node_pat -> Node_pat rest
-  #Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
   # Groups: a->b "title"
   # 1: a->b
   # 2: a
   # 3: ->
   # 4: b
   # 5: title
-  Edge_pat =       /^\s*((\w+)[-\w]*\b\s*(->|<-|--|<->)\s*(\w+)[-\w]*)\b\s*(?!->|<-|--|<->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
+  Edge_pat =       /^\s*((\w+)[-\w]*\b\s*(->|<-|--|<->|-<|>-)\s*(\w+)[-\w]*)\b\s*(?!->|<-|--|<->|-<|>-)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
 
   # Split a string delimited by space of comma but
   # keep quoted values together.
@@ -300,6 +299,10 @@ ENDSTR
       parse_string = %Q{#{a}->#{b} [label="#{title}" dir="none"]\n}
     elsif op == '<->'
       parse_string = %Q{#{a}->#{b} [label="#{title}" dir="both"]\n}
+    elsif op == '-<'
+      parse_string = %Q{#{a}->#{b} [label="#{title}" arrowhead="crow"]\n}
+    elsif op == '>-'
+      parse_string = %Q{#{a}->#{b} [label="#{title}" arrowtail="crow" arrowhead="none"]\n}
     else # -> case
       parse_string = %Q{#{a}->#{b} [label="#{title}"]\n}
     end
