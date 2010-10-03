@@ -5,5 +5,8 @@ digraph G {
     style="filled", fillcolor="AliceBlue"]
   edge [fontname="Arial", color="Blue",
     dir="forward"]
-a -> b [label=""]
+a->b [label=""]
+a->b [label="" dir="none"]
+a->b [label="" dir="back"]
+a->b [label="" dir="both"]
 }

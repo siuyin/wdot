@@ -1,0 +1,9 @@
+:head  "My Diagram", LR {
+_start
+_end
+proc1
+proc2
+_start->proc1
+proc1<->proc2
+proc2->_end
+}

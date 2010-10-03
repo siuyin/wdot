@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>File: FAQ [wdot]</title>
+
+	<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+</head>
+
+<body class="file">
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="./FAQ.html">FAQ</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./Wdot.html">Wdot</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1><a href="wdot_rb.html">wdot.rb</a> - Frequently Asked Questions</h1>
+<p>
+<a href="files/wdot_rb.html">Home</a>
+</p>
+<p>
+What is the format of a :head tag?
+</p>
+<pre>
+ :head followed by a TITLE and a DIRECTION {
+ 
+ example: :head &quot;My Title&quot; LR {
+ or :head &quot;My Title&quot;, LR {
+ 
+ - TITLE should be in double-quotes eg. &quot;My Title&quot;
+ - DIRECTION can be one of LR RL TB or BT
+</pre>
+<p>
+Is the closing brace } needed a the end of a .wdot file?
+</p>
+<pre>
+ Yes.
+</pre>
+<p>
+What is allowed inside a node label?
+</p>
+<pre>
+ Anything this is not a &quot;, eg. &quot;[This is a legal node-&gt;label!]&quot;
+</pre>
+<p>
+Why not use dot directly?
+</p>
+<pre>
+ It save a lot of typing.
+ with wdot:
+  /* My file
+   */
+  :head &quot;My Title&quot;, LR {
+  // Nodes
+  _s &quot;[Start-&gt;here]&quot;
+  _e &quot;End&quot;
+  a &quot;!Node-A!&quot;
+  b [label = &quot;Node B&quot;, shape=&quot;ellipse&quot;]
+  if_ok &quot;Running ?&quot;
+
+  // Links
+  _s-&gt;a &quot;begin&quot;
+  a-&gt;if_ok
+  if_ok-&gt;a &quot;N&quot;
+  if_ok-&gt;b &quot;Y&quot;
+  b-&gt;_e [ dir=&quot;none&quot;]
+  }
+
+ using only dot:
+  /* My file
+   */
+  digraph G {
+    graph [ label=&quot;My Title&quot;, bgcolor=&quot;white&quot;,
+      fontname=&quot;Arial&quot;, rankdir=&quot;LR&quot;]
+    node [fontname=&quot;Arial&quot;, shape=&quot;box&quot;,
+      style=&quot;filled&quot;, fillcolor=&quot;AliceBlue&quot;]
+    edge [fontname=&quot;Arial&quot;, color=&quot;Blue&quot;,
+      dir=&quot;forward&quot;]
+  // Nodes
+  _s [label=&quot;[Start-&gt;here]&quot;, shape=&quot;circle&quot;,
+    fillcolor=&quot;LightPink&quot;]
+  _e [label=&quot;End&quot;, shape=&quot;circle&quot;,
+    fillcolor=&quot;LightPink&quot;]
+  a [label=&quot;!Node-A!&quot;]
+  b [label = &quot;Node B&quot;, shape=&quot;ellipse&quot;]
+  if_ok [label=&quot;Running ?&quot;,shape=&quot;diamond&quot;]
+
+  // Links
+  _s-&gt;a [label=&quot;begin&quot;]
+  a-&gt;if_ok [label=&quot;&quot;]
+  if_ok-&gt;a [label=&quot;N&quot;]
+  if_ok-&gt;b [label=&quot;Y&quot;]
+  b-&gt;_e [ dir=&quot;none&quot;]
+  }
+</pre>
+<p>
+I&#8217;m having problems running graphviz under Microsoft Windows.
+</p>
+<pre>
+  There is currently a problem with the windows 
+  installation of graphviz v0.21 where it is not able to 
+  find fonts installed on Microsoft Windows 98.
+
+  On Windows XP it is not able to find the path to the dot.exe
+  use control panel / performance and maintenance / system / advanced /
+  environment variables to set the path to graphviz_install_dir/bin .
+</pre>
+<p>
+What was used to write <a href="wdot_rb.html">wdot.rb</a>?
+</p>
+<pre>
+  wdot.rb is written in the ruby programming language.
+  It was developed and tested on the GNU/Linux
+  operating system.
+</pre>
+<p>
+Who wrote wdot?
+</p>
+<pre>
+ wdot was written by Loh Siu Yin or SiuYin Loh for those
+ of you in the west. He wrote wdot to help him
+ in his work as a broadcast technology and management
+ consultant with Beyond Broadcast LLP.</pre>
+
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+</body>
+</html>
+

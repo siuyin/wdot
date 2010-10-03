@@ -83,6 +83,16 @@ END
     assert_equal true, Wdot.definition?(Wdot::Node_pat,
       'aes_3 "[aes->\"3\"]"') , 't7'
   end
+  def test_node_definition_should_not_contain_double_dash
+    assert !Wdot.definition?(Wdot::Node_pat,'a--b')
+  end
+  def test_node_definition_should_not_contain_back_arrow
+    assert !Wdot.definition?(Wdot::Node_pat,'a<-b')
+  end
+  def test_node_definition_should_not_contain_double_arrow
+    assert !Wdot.definition?(Wdot::Node_pat,'a<->b')
+  end
+
   def test_start_node_def?
     assert_equal true, Wdot.definition?(Wdot::Start_node_pat,
       '  _start-node "Start->Node"') , 't1'
@@ -132,8 +142,12 @@ END
   def test_edge_def?
     assert_equal true, Wdot.definition?(Wdot::Edge_pat,
       'a->b'), 't1'
+    assert_equal true, Wdot.definition?(Wdot::Edge_pat,
+      'a -> b'), 't1'
+
     assert_equal false, Wdot.definition?(Wdot::Edge_pat,
       'a'), 't2'
+
     assert_equal true, Wdot.definition?(Wdot::Edge_pat,
       'a -> b "something"'), 't3'
     assert_equal true, Wdot.definition?(Wdot::Edge_pat,
@@ -141,6 +155,19 @@ END
     assert_equal false, Wdot.definition?(Wdot::Edge_pat,
       'a->b ["something"]'), 't5'
   end
+
+  def test_edge_def_back_arrow
+    assert Wdot.definition?(Wdot::Edge_pat,'a<-b')
+    assert Wdot.definition?(Wdot::Edge_pat,'a <- b')
+  end
+  def test_edge_def_back_arrow_with_description
+    assert Wdot.definition?(Wdot::Edge_pat,'a<-b "something"')
+    assert Wdot.definition?(Wdot::Edge_pat,'a <- b "something"')
+  end
+  def test_should_not_be_edge_definition_with_dot_override
+    assert !Wdot.definition?(Wdot::Edge_pat,'a<-b ["my dot override <- here"]')
+  end
+
   def test_start_node_parse
     str1 = <<ENDSTR
 _start [label="start", shape="circle",
@@ -158,11 +185,25 @@ ENDSTR
     assert_equal "a [label=\"a\"]\n", Wdot.node_parse('a'), 't2'
     assert_equal "a [label=\"a\"]\n", Wdot.node_parse(' a  '), 't3'
   end
+  
   def test_edge_parse
     assert_equal "a->b [label=\"A to B\"]\n", Wdot.edge_parse('a->b "A to B"'), 't1'
     assert_equal "a->b [label=\"\"]\n", Wdot.edge_parse('a->b'), 't2'
     assert_equal "a->b [label=\"A to \\\"B\\\"\"]\n", Wdot.edge_parse('a->b "A to \"B\""'), 't3'
   end
+  def test_edge_parse_with_back_arrow
+    assert_equal %Q{a->b [label="A to B" dir="back"]\n}, Wdot.edge_parse('a<-b "A to B"')
+    assert_equal %Q{a->b [label="A to B" dir="back"]\n}, Wdot.edge_parse('a <- b "A to B"')
+  end
+  def test_edge_parse_with_no_arrow
+    assert_equal %Q{a->b [label="A to B" dir="none"]\n}, Wdot.edge_parse('a--b "A to B"')
+    assert_equal %Q{a->b [label="A to B" dir="none"]\n}, Wdot.edge_parse('a -- b "A to B"')
+  end
+  def test_edge_parse_with_both_arrow
+    assert_equal %Q{a->b [label="A to B" dir="both"]\n}, Wdot.edge_parse('a<->b "A to B"')
+    assert_equal %Q{a->b [label="A to B" dir="both"]\n}, Wdot.edge_parse('a <-> b "A to B"')
+  end
+
   def test_if_node_parse
     assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok'), 't1'
     assert_equal "if_ok [label=\"ok?\",shape=\"diamond\"]\n", Wdot.if_node_parse('if_ok '), 't2'

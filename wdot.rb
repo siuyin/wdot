@@ -41,6 +41,45 @@
 #  produces: 
 # link:img/d020.png
 # ---
+#  # my_diagram.wdot - with title, LR orientation, no arrows
+#  :head  "My Diagram", LR {
+#  _start
+#  _end
+#  proc1
+#  proc2
+#  _start->proc1
+#  proc1--proc2
+#  proc2->_end
+#  }
+#  produces: 
+# link:img/d021.png
+# ---
+#  # my_diagram.wdot - with title, LR orientation, back arrow
+#  :head  "My Diagram", LR {
+#  _start
+#  _end
+#  proc1
+#  proc2
+#  _start->proc1
+#  proc1<-proc2
+#  proc2->_end
+#  }
+#  produces: 
+# link:img/d022.png
+# ---
+#  # my_diagram.wdot - with title, LR orientation, bi-directional arrow
+#  :head  "My Diagram", LR {
+#  _start
+#  _end
+#  proc1
+#  proc2
+#  _start->proc1
+#  proc1<->proc2
+#  proc2->_end
+#  }
+#  produces: 
+# link:img/d023.png
+# ---
 #  # my_diagram.wdot - node descriptions
 #  :head  "My Diagram", LR {
 #  _start "Start here."
@@ -157,9 +196,11 @@ class Wdot
   # Pattern used to split head line - used by Wdot.tail .
 
   # Pattern - node definition. 
-  Node_pat = /^\s*(\w+[-\w]*)\b\s*
-    # Must not be followed with -> .
-    (?!->)
+  Node_pat = /^\s*(\w+
+    # May be followed by optional (dash word)s then a space.
+    (?:-\w+)*)\b\s*
+    # Must not be followed with ->,--,<- or <-> .
+    (?!->|<-|--|<->)
     # Capture group 2 - starting with the " .
     (?:"
       (
@@ -173,13 +214,20 @@ class Wdot
     )*\s*$/x
 
   # Pattern - start_node definition eg. _begin
-  # The parse patern is almost the same - just different capture groups.
-  Start_node_pat = /^\s*(_(\w+[-\w]*))\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
+  # The parse pattern is almost the same - just different capture groups.
+  Start_node_pat = /^\s*(_(\w+(?:-\w+)*))\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
 
   # if_node pattern.
   If_node_pat =     /^\s*(if_([-\w]+))\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
   # edge pattern: Node_pat -> Node_pat rest
-  Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
+  #Edge_pat =       /^\s*(\w+[-\w]*\b\s*(?:->)\s*\w+[-\w]*)\b\s*(?!->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
+  # Groups: a->b "title"
+  # 1: a->b
+  # 2: a
+  # 3: ->
+  # 4: b
+  # 5: title
+  Edge_pat =       /^\s*((\w+)[-\w]*\b\s*(->|<-|--|<->)\s*(\w+)[-\w]*)\b\s*(?!->|<-|--|<->)(?:(?:"((?:[^"\\]*["\\]*)*)")*)*\s*$/
 
   # Split a string delimited by space of comma but
   # keep quoted values together.
@@ -241,10 +289,20 @@ ENDSTR
   def Wdot.edge_parse(line)
     line.match Edge_pat
     edge_def=$1
-    title = $2 if $2
-    parse_string = <<ENDSTR
-#{edge_def} [label="#{title}"]
-ENDSTR
+    a = $2
+    op = $3 if $3
+    b = $4
+    title = $5 if $5
+    parse_string = ''
+    if    op == '<-'
+      parse_string = %Q{#{a}->#{b} [label="#{title}" dir="back"]\n}
+    elsif op == '--'
+      parse_string = %Q{#{a}->#{b} [label="#{title}" dir="none"]\n}
+    elsif op == '<->'
+      parse_string = %Q{#{a}->#{b} [label="#{title}" dir="both"]\n}
+    else # -> case
+      parse_string = %Q{#{a}->#{b} [label="#{title}"]\n}
+    end
   end
 
   # Parse an if_node. eg. if_ok
@@ -258,7 +316,7 @@ ENDSTR
 ENDSTR
   end
 
-  # Is line a definition, give pat?
+  # Is line a definition, given pat?
   def Wdot.definition?(pat,line)
     ret = false
     if line.match pat
@@ -274,7 +332,7 @@ if $0 == __FILE__
   STDIN.each { |line|
     line.chomp!
 
-    # There are esssentially 3 patters we check for:
+    # There are esssentially 3 patterns we check for:
     # # Head
     # * Node - Including Start_node, If_node and generic node.
     # * Edge
