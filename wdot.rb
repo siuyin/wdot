@@ -3,7 +3,7 @@
 # = wdot.rb - Workflow / Flowchart extensions to grahpviz's dot language.
 # License: GPL v2 or (at your option) any later version. See http://www.fsf.org/licensing .
 #
-# Copyright (C) 2008, Loh Siu Yin (siuyin@beyondbroadcast.com)
+# Copyright (C) 2008-2010, Loh Siu Yin (siuyin@beyondbroadcast.com)
 #
 # Graphviz's dot language ( http://www.graphviz.org ) is a very flexible
 # language that can generate graph images (.png, .svg etc) from a text file.
